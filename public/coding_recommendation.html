@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>코딩 문제 추천</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css">
+    <style>
+        body {
+            background-color: #F1F6F9;
+            font-family: 'Pretendard Variable', sans-serif;
+        }
+        .navbar {
+            background-color: #394867;
+        }
+        .navbar-brand, .nav-link {
+            color: #F1F6F9 !important;
+            font-weight: 700;
+        }
+        .nav-link:hover {
+            color: #9BA4B5 !important;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .card {
+            border-radius: 10px;
+            background-color: #394867;
+            color: #F1F6F9;
+            margin-bottom: 20px;
+        }
+        .card:hover {
+            background-color: #212A3E;
+        }
+        .btn-primary {
+            background-color: #212A3E;
+            border: none;
+            border-radius: 5px;
+            font-weight: 700;
+        }
+        .btn-primary:hover {
+            background-color: #9BA4B5;
+        }
+        .form-control {
+            border-radius: 5px;
+            font-weight: 700;
+        }
+        .recommendation {
+            background-color: #F1F6F9;
+            border: 1px solid #9BA4B5;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            padding: 15px;
+            font-weight: 700;
+        }
+        .recommendation h5 {
+            color: #212A3E;
+            font-weight: 800;
+        }
+        .recommendation p {
+            color: #394867;
+            font-weight: 700;
+        }
+        .recommendation small {
+            color: #9BA4B5;
+            font-weight: 600;
+        }
+        .btn-recommendation {
+            background-color: #212A3E;
+            border: none;
+            border-radius: 5px;
+            color: #F1F6F9;
+            font-weight: 700;
+        }
+        .btn-recommendation:hover {
+            background-color: #9BA4B5;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <a class="navbar-brand" href="index.html">TechUp</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="coding_recommendation.html">코딩 문제 추천</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="todolist.html">To Do List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="variable_generator.html">변수 이름 생성기</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="login.html">로그인</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="signup.html">회원가입</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h2 class="text-center mt-5 mb-4">코딩 문제 추천</h2>
+                <div class="card p-4">
+                    <h5 class="card-title">사용자 티어 설정</h5>
+                    <form id="tier-form">
+                        <div class="form-group">
+                            <label for="tier">티어 선택</label>
+                            <select class="form-control" id="tier" required>
+                                <option value="">티어를 선택하세요</option>
+                                <option value="1">티어 1</option>
+                                <option value="2">티어 2</option>
+                                <option value="3">티어 3</option>
+                                <option value="4">티어 4</option>
+                                <option value="5">티어 5</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">문제 추천받기</button>
+                    </form>
+                </div>
+                <div id="recommendation-list" class="mt-4">
+                    <!-- 추천 문제가 여기에 추가됩니다 -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById('tier-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const tier = document.getElementById('tier').value;
+            recommendProblems(tier);
+        });
+
+        function recommendProblems(tier) {
+            const recommendationList = document.getElementById('recommendation-list');
+            recommendationList.innerHTML = ''; // 기존 추천 문제 비우기
+
+            // 임시로 티어에 따라 문제를 추천하는 예제
+            const problems = [
+                { title: '문제 1', description: '설명 1', tier: 1 },
+                { title: '문제 2', description: '설명 2', tier: 2 },
+                { title: '문제 3', description: '설명 3', tier: 3 },
+                { title: '문제 4', description: '설명 4', tier: 4 },
+                { title: '문제 5', description: '설명 5', tier: 5 },
+            ];
+
+            const filteredProblems = problems.filter(problem => problem.tier == tier);
+            filteredProblems.forEach(problem => {
+                const recommendation = document.createElement('div');
+                recommendation.className = 'recommendation';
+                recommendation.innerHTML = `
+                    <h5>${problem.title}</h5>
+                    <p>${problem.description}</p>
+                    <small>티어: ${problem.tier}</small>
+                    <br>
+                    <a href="https://www.acmicpc.net/problem/1000" class="btn btn-recommendation btn-sm mt-2" target="_blank">문제 풀러가기</a>
+                `;
+                recommendationList.appendChild(recommendation);
+            });
+        }
+    </script>
+</body>
+</html>

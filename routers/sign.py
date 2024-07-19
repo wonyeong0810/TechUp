@@ -18,7 +18,7 @@ def signup(id: str = Header(None), passwd: str = Header(None), level: str = Head
     print("id:", id, "passwd:", passwd)
     if id is None or passwd is None:
         raise HTTPException(status_code=400, detail="id or pw is None1")
-      
+    
     if db['Tusers'].find_one({"id":id}):
         raise HTTPException(status_code=400, detail="id or pw is None2")
     
