@@ -23,7 +23,7 @@ app.get('/recommendation', async (req, res) => {
 
         if (data.count > 0) {
             const problem = data.items[Math.floor(Math.random() * data.items.length)];
-            res.json({ problem: { id: problem.problemId, title: problem.titleKo, tier: problem.level } });
+            res.json({ problem: { id: problem.problemId, title: problem.title, tier: problem.level } });
         } else {
             res.json({ problem: null });
         }
