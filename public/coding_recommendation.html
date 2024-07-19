@@ -100,36 +100,36 @@
                 <div class="form-group">
                     <label for="difficultySelect">난이도 선택:</label>
                     <select class="form-control" id="difficultySelect">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                        <option value="23">23</option>
-                        <option value="24">24</option>
-                        <option value="25">25</option>
-                        <option value="26">26</option>
-                        <option value="27">27</option>
-                        <option value="28">28</option>
-                        <option value="29">29</option>
-                        <option value="30">30</option>
+                        <option value="1">Bronze 5</option>
+                        <option value="2">Bronze 4</option>
+                        <option value="3">Bronze 3</option>
+                        <option value="4">Bronze 2</option>
+                        <option value="5">Bronze 1</option>
+                        <option value="6">Silver 5</option>
+                        <option value="7">Silver 4</option>
+                        <option value="8">Silver 3</option>
+                        <option value="9">Silver 2</option>
+                        <option value="10">Silver 1</option>
+                        <option value="11">Gold 5</option>
+                        <option value="12">Gold 4</option>
+                        <option value="13">Gold 3</option>
+                        <option value="14">Gold 2</option>
+                        <option value="15">Gold 1</option>
+                        <option value="16">Platinum 5</option>
+                        <option value="17">Platinum 4</option>
+                        <option value="18">Platinum 3</option>
+                        <option value="19">Platinum 2</option>
+                        <option value="20">Platinum 1</option>
+                        <option value="21">Diamond 5</option>
+                        <option value="22">Diamond 4</option>
+                        <option value="23">Diamond 3</option>
+                        <option value="24">Diamond 2</option>
+                        <option value="25">Diamond 1</option>
+                        <option value="26">Ruby 5</option>
+                        <option value="27">Ruby 4</option>
+                        <option value="28">Ruby 3</option>
+                        <option value="29">Ruby 2</option>
+                        <option value="30">Ruby 1</option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">문제 추천받기</button>
@@ -160,8 +160,8 @@
                         const problemUrl = `https://www.acmicpc.net/problem/${problem.id}`;
                         recommendationDiv.innerHTML = `
                             <h5>추천 문제:</h5>
-                            <p><a href="${problemUrl}" target="_blank">문제 ${problem.id}: ${problem.title}</a></p>
-                            <small>난이도: ${problem.tier}</small>
+                            <p><a href="${problemUrl}" target="_blank">문제 ${problem.id}</a></p>
+                            <p>난이도: ${problem.tier}단계</p>
                         `;
                     } else {
                         recommendationDiv.innerHTML = '<p>문제 추천 결과가 없습니다.</p>';
@@ -173,6 +173,7 @@
                 });
         });
     </script>
+    
     
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

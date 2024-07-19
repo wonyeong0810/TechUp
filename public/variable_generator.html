@@ -44,7 +44,7 @@
             border-radius: 5px;
             font-weight: 700;
         }
-        .result {
+        .recommendation {
             background-color: #F1F6F9;
             border: 1px solid #9BA4B5;
             border-radius: 5px;
@@ -52,19 +52,66 @@
             padding: 15px;
             font-weight: 700;
         }
-        .result h5 {
+        .recommendation h5 {
             color: #212A3E;
             font-weight: 800;
         }
-        .result p {
+        .recommendation p {
             color: #394867;
             font-weight: 700;
+        }
+        .form-check {
+            margin-bottom: 1rem;
+        }
+        .form-check-input {
+            position: absolute;
+            margin-top: 0.3rem;
+            margin-right: 0.3rem;
+            opacity: 0;
+            cursor: pointer;
+            width: 0;
+            height: 0;
+        }
+        .form-check-label {
+            position: relative;
+            padding-left: 2rem;
+            cursor: pointer;
+            font-weight: 700;
+            color: #F1F6F9;
+        }
+        .form-check-label::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 50%;
+            border: 2px solid #9BA4B5;
+            background-color: #F1F6F9;
+            transform: translateY(-50%);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        .form-check-input:checked ~ .form-check-label::before {
+            background-color: #212A3E;
+            border-color: #212A3E;
+        }
+        .form-check-input:checked ~ .form-check-label::after {
+            content: '';
+            position: absolute;
+            left: 0.375rem;
+            top: 50%;
+            width: 0.625rem;
+            height: 0.625rem;
+            border-radius: 50%;
+            background-color: #F1F6F9;
+            transform: translateY(-50%);
         }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="index.html">TechUp</a>
+        <a class="navbar-brand" href="index.html">My App</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -91,17 +138,38 @@
     <div class="container">
         <h2 class="text-center mt-5 mb-4">변수 이름 생성기</h2>
         <div class="card p-4">
-            <h5 class="card-title">변수 기능 입력</h5>
-            <p class="card-text">변수의 기능을 입력하고 추천 변수를 확인하세요.</p>
+            <h5 class="card-title">변수 이름 생성</h5>
+            <p class="card-text">변수 이름과 유형을 선택하여 생성할 수 있습니다.</p>
             <form id="variableForm">
                 <div class="form-group">
-                    <label for="functionInput">변수 기능:</label>
-                    <input type="text" class="form-control" id="functionInput" placeholder="예: 사용자 나이" required>
+                    <label for="roleInput">역할:</label>
+                    <input type="text" class="form-control" id="roleInput" placeholder="역할 입력">
                 </div>
-                <button type="submit" class="btn btn-primary">변수 이름 추천</button>
+                <div class="form-group">
+                    <label>변수명 유형:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="caseType" id="camelCase" value="camelCase" checked>
+                        <label class="form-check-label" for="camelCase">
+                            camelCase
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="caseType" id="snakeCase" value="snakeCase">
+                        <label class="form-check-label" for="snakeCase">
+                            snake_case
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="caseType" id="pascalCase" value="pascalCase">
+                        <label class="form-check-label" for="pascalCase">
+                            PascalCase
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">변수 이름 생성</button>
             </form>
-            <div class="result mt-4" id="result">
-                <!-- 추천 변수 이름이 여기에 표시됩니다. -->
+            <div class="recommendation mt-4" id="result">
+                <!-- 생성된 변수 이름이 여기에 표시됩니다. -->
             </div>
         </div>
     </div>
@@ -110,26 +178,33 @@
         document.getElementById('variableForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const functionInput = document.getElementById('functionInput').value;
+            const role = document.getElementById('roleInput').value;
+            const caseType = document.querySelector('input[name="caseType"]:checked').value;
             const resultDiv = document.getElementById('result');
-            
-            // 예시 변수 이름 생성기 로직
-            const examples = [
-                'user_age', 
-                'age_of_user', 
-                'user_age_value',
-                'ageUser', 
-                'userAge'
-            ];
-            
-            // 간단한 랜덤 변수 이름 선택
-            const randomIndex = Math.floor(Math.random() * examples.length);
-            const suggestedName = examples[randomIndex];
-            
+
+            if (!role) {
+                resultDiv.innerHTML = '<p>역할을 입력해주세요.</p>';
+                return;
+            }
+
+            let variableName;
+            switch (caseType) {
+                case 'camelCase':
+                    variableName = role.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match, index) => index === 0 ? match.toLowerCase() : match.toUpperCase()).replace(/\s+/g, '');
+                    break;
+                case 'snakeCase':
+                    variableName = role.replace(/\s+/g, '_').toLowerCase();
+                    break;
+                case 'pascalCase':
+                    variableName = role.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match) => match.toUpperCase()).replace(/\s+/g, '');
+                    break;
+                default:
+                    variableName = role;
+            }
+
             resultDiv.innerHTML = `
-                <h5>추천 변수 이름:</h5>
-                <p>${suggestedName}</p>
-                <small>입력된 기능: ${functionInput}</small>
+                <h5>생성된 변수 이름:</h5>
+                <p>${variableName}</p>
             `;
         });
     </script>

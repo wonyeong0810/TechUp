@@ -1,47 +1,39 @@
-const express = require('express');
-const axios = require('axios');
-const cors = require('cors');
+// server.js
+import express from 'express';
+import fetch from 'node-fetch';
+import cors from 'cors';
 
 const app = express();
 const PORT = 3000;
 
 app.use(cors());
+app.use(express.json());
 
 app.get('/recommendation', async (req, res) => {
     const difficulty = req.query.difficulty;
 
-    if (difficulty < 1 || difficulty > 30) {
-        return res.status(400).json({ error: 'Invalid difficulty specified' });
-    }
-
     try {
-        const response = await axios.get('https://solved.ac/api/v3/search/problem', {
-            params: {
-                query: `tier:${difficulty}`,
-                sort: 'random',
-                page: 1,
-                size: 1
-            }
-        });
+        const response = await fetch(`https://solved.ac/api/v3/search/problem?query=tier:${difficulty}`);
+        if (!response.ok) {
+            throw new Error('Solved.ac API 요청 실패');
+        }
 
-        if (response.data.count > 0) {
-            const problem = response.data.items[0];
-            res.json({
-                problem: {
-                    id: problem.problemId,
-                    title: problem.titleKo,
-                    tier: problem.level
-                }
-            });
+        const data = await response.json();
+        console.log(data); // 응답 구조를 확인하기 위해 로그 출력
+
+        if (data.count > 0) {
+            const problem = data.items[Math.floor(Math.random() * data.items.length)];
+            res.json({ problem: { id: problem.problemId, title: problem.titleKo, tier: problem.level } });
         } else {
-            res.status(404).json({ error: 'No problems found for the specified difficulty' });
+            res.json({ problem: null });
         }
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Problem recommendation error' });
+        res.status(500).json({ error: error.message });
     }
 });
 
+
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`서버가 포트 ${PORT}에서 실행 중입니다.`);
 });

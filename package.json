@@ -1,6 +1,7 @@
 {
   "name": "techup",
   "version": "1.0.0",
+  "type": "module",
   "description": "우리가 1등 먹는다 ㅋㅋㄹㅃㅃ",
   "main": "index.js",
   "scripts": {
@@ -20,6 +21,7 @@
   "dependencies": {
     "axios": "^1.7.2",
     "cors": "^2.8.5",
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2"
   }
 }
